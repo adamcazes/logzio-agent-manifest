@@ -77,7 +77,7 @@ function Get-OtelCollectorExe {
     Write-Log $script:LogLevelDebug $Message
 
     try {
-        Invoke-WebRequest -Uri $script:OtelCollectorUrlDownload -OutFile $script:LogzioTempDir\otelcol-logzio.tar.gz | Out-Null
+        Invoke-WebRequest -Uri $script:OtelCollectorUrlDownload -OutFile $script:LogzioTempDir\otelcol.tar.gz | Out-Null
     }
     catch {
         $Message = "installer.ps1 ($ExitCode): error downloading OTEL collector tar.gz: $_"
@@ -87,7 +87,7 @@ function Get-OtelCollectorExe {
         return $ExitCode
     }
 
-    tar -zxf $script:LogzioTempDir\otelcol-logzio.tar.gz --directory $script:LogzioTempDir 2>$script:TaskErrorFile | Out-Null
+    tar -zxf "$script:LogzioTempDir\otelcol.tar.gz" --directory $script:LogzioTempDir $script:OtelCollectorExeName 2>$script:TaskErrorFile | Out-Null
     if ($LASTEXITCODE -eq 0) {
         return
     }

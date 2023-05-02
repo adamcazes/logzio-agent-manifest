@@ -84,7 +84,7 @@ function download_otel_collector_binary {
     send_log_to_logzio "$LOG_LEVEL_DEBUG" "$message" "$LOG_STEP_PRE_INSTALLATION" "$LOG_SCRIPT_INSTALLER" "$func_name" "$AGENT_ID" "$PLATFORM" "$SUB_TYPE"
     write_log "$LOG_LEVEL_DEBUG" "$message"
 
-    curl -fsSL "$OTEL_COLLECTOR_URL_DOWNLOAD" >"$LOGZIO_TEMP_DIR/otelcol-logzio.tar.gz" 2>"$TASK_ERROR_FILE"
+    curl -fsSL "$OTEL_COLLECTOR_URL_DOWNLOAD" >"$LOGZIO_TEMP_DIR/otelcol.tar.gz" 2>"$TASK_ERROR_FILE"
     if [[ $? -ne 0 ]]; then
         message="installer.bash ($EXIT_CODE): error downloading otelcol-logzio.tar.gz: $(get_task_error_message)"
         send_log_to_logzio "$LOG_LEVEL_ERROR" "$message" "$LOG_STEP_PRE_INSTALLATION" "$LOG_SCRIPT_INSTALLER" "$func_name" "$AGENT_ID" "$PLATFORM" "$SUB_TYPE"
@@ -93,7 +93,7 @@ function download_otel_collector_binary {
         return $EXIT_CODE
     fi
 
-    tar -zxf "$LOGZIO_TEMP_DIR/otelcol-logzio.tar.gz" --directory "$LOGZIO_TEMP_DIR" 2>"$TASK_ERROR_FILE"
+    tar -zxf "$LOGZIO_TEMP_DIR/otelcol.tar.gz" --directory "$LOGZIO_TEMP_DIR" "$OTEL_COLLECTOR_BIN_NAME" 2>"$TASK_ERROR_FILE"
     if [[ $? -ne 0 ]]; then
         message="installer.bash ($EXIT_CODE): error extracting files from otelcol-logzio.tar.gz: $(get_task_error_message)"
         send_log_to_logzio "$LOG_LEVEL_ERROR" "$message" "$LOG_STEP_PRE_INSTALLATION" "$LOG_SCRIPT_INSTALLER" "$func_name" "$AGENT_ID" "$PLATFORM" "$SUB_TYPE"
